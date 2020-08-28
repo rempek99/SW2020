@@ -46,17 +46,17 @@ public class PageOne extends AppCompatActivity {
 
         //Akcelerometr
         Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        if(accelerometer !=null) {
-            sensorManager.registerListener(accelerationSensorListener, accelerometer,SensorManager.SENSOR_DELAY_NORMAL);
+        if (accelerometer != null) {
+            sensorManager.registerListener(accelerationSensorListener, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             openDialog("Couldn't find accelerometer");
         }
 
         //Rotacja
         Sensor rotationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-        if(rotationSensor !=null) {
+        if (rotationSensor != null) {
             //rotationVector found
-            sensorManager.registerListener(rotationSensorListener, rotationSensor,SensorManager.SENSOR_DELAY_NORMAL);
+            sensorManager.registerListener(rotationSensorListener, rotationSensor, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             openDialog("Couldn't find vector rotation sensor");
         }
@@ -64,8 +64,8 @@ public class PageOne extends AppCompatActivity {
         //wczytywanie sensora odpowiedzialnego o odczyt lumenów
         Sensor lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         textLIGHT_reading = findViewById(R.id.light_lbl);
-        if(lightSensor != null) {
-            sensorManager.registerListener(lightSensorListener,lightSensor,SensorManager.SENSOR_DELAY_NORMAL);
+        if (lightSensor != null) {
+            sensorManager.registerListener(lightSensorListener, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
         } else {
             openDialog("Couldn't find light sensor");
         }
@@ -91,18 +91,18 @@ public class PageOne extends AppCompatActivity {
     private SensorEventListener accelerationSensorListener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 
                 float deltaX = Math.abs(lastX - event.values[0]);
                 float deltaY = Math.abs(lastY - event.values[1]);
                 float deltaZ = Math.abs(lastZ - event.values[2]);
 
-                TextView labelX =  findViewById(R.id.x_axis_val);
-                labelX.setText(String.valueOf(deltaX));
-                TextView labelY =  findViewById(R.id.y_axis_val);
-                labelY.setText(String.valueOf(deltaY));
-                TextView labelZ =  findViewById(R.id.z_axis_val);
-                labelZ.setText(String.valueOf(deltaZ));
+                TextView labelX = findViewById(R.id.x_axis_val);
+                labelX.setText(String.format("%.3f",deltaX));
+                TextView labelY = findViewById(R.id.y_axis_val);
+                labelY.setText(String.format("%.3f",deltaY));
+                TextView labelZ = findViewById(R.id.z_axis_val);
+                labelZ.setText(String.format("%.3f",deltaZ));
 
                 if (deltaX < 2)
                     deltaX = 0;
@@ -115,11 +115,11 @@ public class PageOne extends AppCompatActivity {
                 lastY = event.values[1];
                 lastZ = event.values[2];
 
-                TextView statusLabel =  findViewById(R.id.state_lbl);
+                TextView statusLabel = findViewById(R.id.state_lbl);
                 float tmp = Math.abs(deltaX) + Math.abs(deltaY) + Math.abs(deltaZ);
 
                 if (tmp == 0) {
-                    if (System.currentTimeMillis() - oldDate < 1000){
+                    if (System.currentTimeMillis() - oldDate < 1000) {
                         return;
                     }
                     statusLabel.setText(getString(R.string.standing));
@@ -127,7 +127,7 @@ public class PageOne extends AppCompatActivity {
                     Uri imgUri = Uri.parse("android.resource://com.example.testapplication/drawable/staying_new");
                     giv.setImageURI(imgUri);
                 } else {
-                    if (System.currentTimeMillis() - oldDate < 500){
+                    if (System.currentTimeMillis() - oldDate < 500) {
                         return;
                     }
                     statusLabel.setText(getString(R.string.running));
@@ -140,26 +140,28 @@ public class PageOne extends AppCompatActivity {
         }
 
         @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {}
+        public void onAccuracyChanged(Sensor sensor, int i) {
+        }
     };
 
-    private SensorEventListener lightSensorListener = new SensorEventListener(){
+    private SensorEventListener lightSensorListener = new SensorEventListener() {
         @Override
-        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        }
 
         @SuppressLint("SetTextI18n")
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if(event.sensor.getType() == Sensor.TYPE_LIGHT){
-                textLIGHT_reading =  findViewById(R.id.light_lbl);
+            if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+                textLIGHT_reading = findViewById(R.id.light_lbl);
                 textLIGHT_reading.setText("LIGHT: " + event.values[0]);
-                float value = event.values[0]/2;
-                if(value>255){
-                    value=255.f;
+                float value = event.values[0] / 2;
+                if (value > 255) {
+                    value = 255.f;
                 }
                 Button button = findViewById(R.id.button);
                 View root = button.getRootView();
-                root.setBackgroundColor(Color.rgb(140,200, Math.round(value)));
+                root.setBackgroundColor(Color.rgb(140, 200, Math.round(value)));
             }
         }
     };
@@ -168,20 +170,21 @@ public class PageOne extends AppCompatActivity {
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         @Override
         public void onSensorChanged(SensorEvent event) {
-            if(event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
-                TextView rotationXlbl =  findViewById(R.id.rotationX);
-                TextView rotationYlbl =  findViewById(R.id.rotationY);
-                TextView rotationZlbl =  findViewById(R.id.rotationZ);
-                rotationXlbl.setText("X: "+ String.format("%.2f",event.values[0]));
-                rotationYlbl.setText("Y: "+ String.format("%.2f",event.values[1]));
-                rotationZlbl.setText("Z: "+ String.format("%.2f",event.values[2]));
+            if (event.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
+                TextView rotationXlbl = findViewById(R.id.rotationX);
+                TextView rotationYlbl = findViewById(R.id.rotationY);
+                TextView rotationZlbl = findViewById(R.id.rotationZ);
+                rotationXlbl.setText("X: " + String.format("%.2f", event.values[0]));
+                rotationYlbl.setText("Y: " + String.format("%.2f", event.values[1]));
+                rotationZlbl.setText("Z: " + String.format("%.2f", event.values[2]));
                 GifImageView giv = findViewById(R.id.gif1);
-                giv.setRotation(event.values[2]*180 - 90);
+                giv.setRotation(event.values[2] * 180 - 90);
             }
         }
 
         @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {}
+        public void onAccuracyChanged(Sensor sensor, int i) {
+        }
     };
 
     public void openDialog(String message) {
@@ -191,9 +194,9 @@ public class PageOne extends AppCompatActivity {
 
     public void click(View view) {
         int src_id = view.getId();
-        if(src_id==R.id.imageView2) {
+        if (src_id == R.id.imageView2) {
             Intent intent;
-            intent = new Intent(PageOne.this,MainActivity.class);
+            intent = new Intent(PageOne.this, MainActivity.class);
             startActivity(intent);
         }
     }
@@ -203,34 +206,34 @@ public class PageOne extends AppCompatActivity {
     }
 
     public void refresh() {
-        TextView diag_lbl =  findViewById(R.id.diagnostic_lbl3);
-        if(diagnostic) {
+        TextView diag_lbl = findViewById(R.id.diagnostic_lbl3);
+        if (diagnostic) {
             diag_lbl.setVisibility(View.VISIBLE);
-            TextView tmp =  findViewById(R.id.x_axis_lbl);
+            TextView tmp = findViewById(R.id.x_axis_lbl);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.y_axis_lbl);
+            tmp = findViewById(R.id.y_axis_lbl);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.z_axis_lbl);
+            tmp = findViewById(R.id.z_axis_lbl);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.x_axis_val);
+            tmp = findViewById(R.id.x_axis_val);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.y_axis_val);
+            tmp = findViewById(R.id.y_axis_val);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.z_axis_val);
+            tmp = findViewById(R.id.z_axis_val);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.y_axis_lbl);
+            tmp = findViewById(R.id.y_axis_lbl);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.light_lbl);
+            tmp = findViewById(R.id.light_lbl);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.vector_rotate_lbl);
+            tmp = findViewById(R.id.vector_rotate_lbl);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.rotationX);
+            tmp = findViewById(R.id.rotationX);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.rotationY);
+            tmp = findViewById(R.id.rotationY);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.rotationZ);
+            tmp = findViewById(R.id.rotationZ);
             tmp.setVisibility(View.VISIBLE);
-            tmp =  findViewById(R.id.state_lbl);
+            tmp = findViewById(R.id.state_lbl);
             tmp.setVisibility(View.VISIBLE);
             switch_lbl.setTitle(R.string.standard);
         } else {
@@ -241,25 +244,25 @@ public class PageOne extends AppCompatActivity {
             tmp.setVisibility(View.INVISIBLE);
             tmp = findViewById(R.id.z_axis_lbl);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.x_axis_val);
+            tmp = findViewById(R.id.x_axis_val);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.y_axis_val);
+            tmp = findViewById(R.id.y_axis_val);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.z_axis_val);
+            tmp = findViewById(R.id.z_axis_val);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.y_axis_lbl);
+            tmp = findViewById(R.id.y_axis_lbl);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.light_lbl);
+            tmp = findViewById(R.id.light_lbl);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.vector_rotate_lbl);
+            tmp = findViewById(R.id.vector_rotate_lbl);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.rotationX);
+            tmp = findViewById(R.id.rotationX);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.rotationY);
+            tmp = findViewById(R.id.rotationY);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.rotationZ);
+            tmp = findViewById(R.id.rotationZ);
             tmp.setVisibility(View.INVISIBLE);
-            tmp =  findViewById(R.id.state_lbl);
+            tmp = findViewById(R.id.state_lbl);
             tmp.setVisibility(View.INVISIBLE);
             switch_lbl.setTitle(R.string.diagnostic);
         }
@@ -267,7 +270,7 @@ public class PageOne extends AppCompatActivity {
 
     public void click(MenuItem item) {
         int src_id = item.getItemId();
-        if(src_id==R.id.diagnostic) {
+        if (src_id == R.id.diagnostic) {
             switchDiagnostic();
             refresh();
         }

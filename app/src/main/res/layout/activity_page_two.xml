@@ -10,13 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
+
         <ImageView
             android:id="@+id/imageViewBackFromBarometer"
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
+            android:contentDescription="vector"
             android:onClick="click"
-            app:srcCompat="@drawable/abc_vector_test"
-            android:contentDescription="vector" />
+            app:srcCompat="@drawable/abc_vector_test" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"

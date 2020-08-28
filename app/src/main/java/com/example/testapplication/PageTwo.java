@@ -51,6 +51,7 @@ public class PageTwo extends AppCompatActivity {
         }
         localizator = new Localizator();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -78,13 +79,11 @@ public class PageTwo extends AppCompatActivity {
                 float pressureValue = event.values[0];
                 pressureValueLabel.setText(String.format("%.2f mbar", pressureValue));
                 View root = pressureValueLabel.getRootView();
+
                 int colorValue = (Math.round(pressureValue) * 10) % 255;
+                int inverse_colorValue = Math.abs(colorValue - 128);
+
                 TextView pressureLabel = findViewById(R.id.pressure_lbl);
-                pressureLabel.setTextColor(Color.rgb(255 - colorValue, 255 - colorValue, 255 - colorValue));
-                pressureValueLabel.setTextColor(Color.rgb(255 - colorValue, 255 - colorValue, 255 - colorValue));
-
-                int inverse_colorValue = Math.abs(colorValue-128);
-
                 TextView longitude_val = findViewById(R.id.longitude_val);
                 TextView latitude_val = findViewById(R.id.latitude_val);
                 TextView longitude_lbl = findViewById(R.id.longitude_lbl);
@@ -92,19 +91,22 @@ public class PageTwo extends AppCompatActivity {
                 @SuppressLint("CutPasteId") TextView pressure_lbl = findViewById(R.id.pressure_lbl);
                 @SuppressLint("CutPasteId") TextView pressure_val = findViewById(R.id.pressure_val);
 
-                longitude_val.setTextColor(Color.rgb(inverse_colorValue,inverse_colorValue,inverse_colorValue));
-                latitude_val.setTextColor(Color.rgb(inverse_colorValue,inverse_colorValue,inverse_colorValue));
-                latitude_lbl.setTextColor(Color.rgb(inverse_colorValue,inverse_colorValue,inverse_colorValue));
-                longitude_lbl.setTextColor(Color.rgb(inverse_colorValue,inverse_colorValue,inverse_colorValue));
-                pressure_lbl.setTextColor(Color.rgb(inverse_colorValue,inverse_colorValue,inverse_colorValue));
-                pressure_val.setTextColor(Color.rgb(inverse_colorValue,inverse_colorValue,inverse_colorValue));
+                pressureLabel.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
+                pressureValueLabel.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
+                longitude_val.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
+                latitude_val.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
+                latitude_lbl.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
+                longitude_lbl.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
+                pressure_lbl.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
+                pressure_val.setTextColor(Color.rgb(inverse_colorValue, inverse_colorValue, inverse_colorValue));
 
                 root.setBackgroundColor(Color.rgb(colorValue, colorValue, colorValue));
             }
         }
 
         @Override
-        public void onAccuracyChanged(Sensor sensor, int i) {}
+        public void onAccuracyChanged(Sensor sensor, int i) {
+        }
     };
 
     public void openDialog(String message) {
@@ -123,14 +125,14 @@ public class PageTwo extends AppCompatActivity {
 
         public void enable() {
             locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            if(!isGpsEnabled()) {
+            if (!isGpsEnabled()) {
                 openDialog("GPS is not enabled");
                 return;
             }
-            if((ContextCompat.checkSelfPermission(PageTwo.this, Manifest.permission.ACCESS_COARSE_LOCATION)!= PackageManager.PERMISSION_GRANTED)
+            if ((ContextCompat.checkSelfPermission(PageTwo.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
                     &&
-                    (ContextCompat.checkSelfPermission(PageTwo.this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED)) {
-                ActivityCompat.requestPermissions(PageTwo.this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},1);
+                    (ContextCompat.checkSelfPermission(PageTwo.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+                ActivityCompat.requestPermissions(PageTwo.this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
             }
 
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
@@ -150,8 +152,7 @@ public class PageTwo extends AppCompatActivity {
             enabled = true;
         }
 
-        public boolean isGpsEnabled()
-        {
+        public boolean isGpsEnabled() {
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
             boolean gps_enabled;
             gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -160,19 +161,19 @@ public class PageTwo extends AppCompatActivity {
 
         public String getLongitude() {
             @SuppressLint("DefaultLocale")
-            String output = String.format("%.2f",Math.abs(longitude));
-            if(longitude>=0){
+            String output = String.format("%.2f", Math.abs(longitude));
+            if (longitude >= 0) {
                 output += " E";
             } else {
                 output += " W";
-}
+            }
             return output;
         }
 
         public String getLatitude() {
             @SuppressLint("DefaultLocale")
-            String output = String.format("%.2f",Math.abs(latitude));
-            if(longitude>=0){
+            String output = String.format("%.2f", Math.abs(latitude));
+            if (longitude >= 0) {
                 output += " N";
             } else {
                 output += " S";
@@ -181,17 +182,16 @@ public class PageTwo extends AppCompatActivity {
         }
     }
 
-    public void click(View view)
-    {
+    public void click(View view) {
         int src_id = view.getId();
         if (src_id == R.id.localisation_btn) {
-            if(!localizator.enabled){
+            if (!localizator.enabled) {
                 localizator.enable();
             }
         }
-        if(src_id==R.id.imageViewBackFromBarometer) {
+        if (src_id == R.id.imageViewBackFromBarometer) {
             Intent intent;
-            intent = new Intent(PageTwo.this,MainActivity.class);
+            intent = new Intent(PageTwo.this, MainActivity.class);
             startActivity(intent);
         }
     }
@@ -200,9 +200,8 @@ public class PageTwo extends AppCompatActivity {
         diagnostic = !diagnostic;
     }
 
-    public void refresh()
-    {
-        if(diagnostic) {
+    public void refresh() {
+        if (diagnostic) {
             TextView tmp;
             TextView diag_lbl = findViewById(R.id.diagnostic_lbl2);
             diag_lbl.setVisibility(View.VISIBLE);
@@ -225,7 +224,7 @@ public class PageTwo extends AppCompatActivity {
 
     public void click(MenuItem item) {
         int src_id = item.getItemId();
-        if(src_id == R.id.diagnostic) {
+        if (src_id == R.id.diagnostic) {
             switchDiagnostic();
             refresh();
         }

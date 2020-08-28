@@ -50,25 +50,23 @@ public class MainActivity extends AppCompatActivity {
         //pobranie id klikniętego elementu
         int src_id = view.getId();
 
-        if(src_id == R.id.button2) {
+        if (src_id == R.id.button2) {
             Intent intent = new Intent(MainActivity.this, PageOne.class);
             startActivity(intent);
             return;
         }
-        if(src_id == R.id.button_first) {
+        if (src_id == R.id.button_first) {
             Intent intent = new Intent(MainActivity.this, PageTwo.class);
             startActivity(intent);
         }
     }
 
-    public void refresh()
-    {
+    public void refresh() {
         TextView diag_lbl = findViewById(R.id.diagnostic);
-        if(diagnostic) {
+        if (diagnostic) {
             diag_lbl.setVisibility(View.VISIBLE);
             switch_lbl.setTitle(R.string.standard);
-        }
-        else {
+        } else {
             diag_lbl.setVisibility(View.INVISIBLE);
             switch_lbl.setTitle(R.string.diagnostic);
         }
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void click(MenuItem item) {
         int src_id = item.getItemId();
-        if(src_id==R.id.diagnostic) {
+        if (src_id == R.id.diagnostic) {
             switchDiagnostic();
             refresh();
         }
