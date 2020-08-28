@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 public class AlertionDialog extends AppCompatDialogFragment {
 
     private String message;
-
     AlertionDialog(String message)
     {
         this.message = message;
@@ -33,18 +32,12 @@ public class AlertionDialog extends AppCompatDialogFragment {
                 .setTitle("Alert")
                 .setPositiveButton("ok", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) {}
                 });
-        TextView message_lbl = (TextView) view.findViewById(R.id.text_message);
+        TextView message_lbl = view.findViewById(R.id.text_message);
         message_lbl.setText(message);
 
-                return builder.create();
-    }
-    public void setMessage(String message)
-    {
-
+        return builder.create();
     }
 }
 

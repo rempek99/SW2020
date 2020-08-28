@@ -15,11 +15,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Barometer"
+            android:name=".PageTwo"
             android:label="@string/title_activity_barometer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Window2"
+            android:name=".PageOne"
             android:label="@string/title_activity_window2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

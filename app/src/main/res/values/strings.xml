@@ -28,4 +28,8 @@
     <string name="diagnostic">Diagnostic Mode</string>
     <string name="standard">Standard Mode</string>
     <string name="description"><b>Ta aplikacja wykorzystuje dane pobierane z sensorów Twojego telefonu!</b>\n\n\n<u>Page1</u> \nAkcelerometr, Czujnik światła, Wektorowy Sensor Obrotu\n\n<u>Page2</u> \nBarometr, Lokalizator GPS</string>
+    <string name="_0_bar">0 bar</string>
+    <string name="pressure">Pressure:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="vector_rotate_sensor_values">Vector Rotate Sensor Values</string>
 </resources>
